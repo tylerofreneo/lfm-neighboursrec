@@ -54,7 +54,7 @@ neighbours_songs = (
 )
 neighbours_songs['playcount'] = pd.Series(map(lambda x: int(x), neighbours_songs['playcount']))
 neighbours_songs['rating'] = pd.qcut(neighbours_songs['playcount'], q = 5,
-                                     labels = [1, 2, 3, 4, 5]).astype(int)
+                                     labels = [1, 2, 3, 4, 5], duplicates='drop').astype(int)
 neighbours_songs['@attr.rank'] = neighbours_songs['@attr.rank'].astype(int)
 neighbours_songs_grouped = neighbours_songs.groupby('song').agg({'@attr.rank' : 'mean', 'similarity_rank' : 'mean', 'playcount' : 'mean', 'rating' : 'mean', 'user' : 'count'})
 neighbours_songs_filtered = neighbours_songs_grouped[neighbours_songs_grouped['user'] >= 10]
